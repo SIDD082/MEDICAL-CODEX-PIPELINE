@@ -12,7 +12,7 @@ loinc.STATUS.value_counts()
 ### print first row
 loinc.iloc[0]
 
-#### Check potential column names that we think we want to keep: LOINC_NUM, DefinitionDescription
+#### Checking potential column names that we think we want to keep: LOINC_NUM, DefinitionDescription
 loinc.LOINC_NUM
 loinc.LONG_COMMON_NAME
 
