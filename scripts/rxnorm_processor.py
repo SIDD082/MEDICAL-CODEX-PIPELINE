@@ -3,7 +3,7 @@ from pathlib import Path
 
 # https://www.nlm.nih.gov/research/umls/rxnorm/docs/techdoc.html#s12_10
 
-file_path = Path('Module1_MedicalCodexes/rxnorm/files/RXNATOMARCHIVE.RRF')
+file_path = Path('input/RXNATOMARCHIVE.RRF')
 
 columns = [
     'rxaui', 'aui', 'str', 'archive_timestamp', 'created_timestamp', 
@@ -19,7 +19,7 @@ df = pl.read_csv(
     truncate_ragged_lines=True
 )
 
-output_dir = Path('Module1_MedicalCodexes/rxnorm/output')
+output_dir = Path('MEDICAL-CODEX-PIPELINE/rxnorm/output')
 output_dir.mkdir(exist_ok=True)
 output_path = output_dir / 'RXNATOMARCHIVE.csv'
 

@@ -4,9 +4,9 @@ import time
 
 npi_file_path = 'input\npidata_pfile_20050523-20250810.csv'
 
-## just load the first 1000 rows
+## just loading the first 1000 rows in order to minimize file size
 start_time_polars = time.time()
-df_polars = pl.read_csv(npi_file_path) #, n_rows=1_000_000)
+df_polars = pl.read_csv(input\npidata_pfile_20050523-20250810.csv) #, n_rows=1_000_000)
 end_time_polars = time.time()
 elapsed_time_polars = end_time_polars - start_time_polars
 print(elapsed_time_polars)
@@ -48,6 +48,6 @@ df_polars_small = df_polars_small.rename({
 
 
 ## save to csv
-output_path = 'Module1_MedicalCodexes/npi/output/npi_small.csv'
+output_path = 'MEDICAL-CODEX-PIPELINE/npi/output/npi_small.csv'
 df_polars_small.write_csv(output_path)
-df_polars_small.write_parquet('Module1_MedicalCodexes/npi/output/npi_small.parquet')
+df_polars_small.write_parquet('MEDICAL-CODEX-PIPELINE/npi/output/npi_small.parquet')

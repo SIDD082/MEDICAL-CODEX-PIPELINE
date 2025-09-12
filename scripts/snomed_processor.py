@@ -1,41 +1,61 @@
-import polars as pl
-from pathlib import Path
+import pandas as pandasLibrary
+from common_functions import makeTimestamp, cleanText, readLines
 
-file_path = Path('Module1_MedicalCodexes/snowmed/sct2_Description_Full-en_US1000124_20250301.txt')
+def parseLines(linesList):
+    rowsList = []
+    stampText = makeTimestamp()
+    headerDone = False
+    indexNumber = 0
+    while indexNumber < len(linesList):
+        lineText = linesList[indexNumber]
+        rawText = lineText.strip()
+        if rawText == "":
+            indexNumber = indexNumber + 1
+            continue
+        if '|' in rawText:
+            partsList = rawText.split('|')
+        else:
+            partsList = rawText.split('\t')
+            if len(partsList) == 1:
+                partsList = rawText.split()
+        if headerDone == False:
+            headerDone = True
+            if len(partsList) > 0:
+                firstValue = partsList[0]
+                if firstValue.isdigit() == False:
+                    indexNumber = indexNumber + 1
+                    continue
+        if len(partsList) >= 8:
+            conceptId = cleanText(partsList[4]) if len(partsList) > 4 else ""
+            activeText = cleanText(partsList[2]) if len(partsList) > 2 else ""
+            termIndex = 7
+            if len(partsList) <= 7:
+                termIndex = len(partsList) - 2
+            if termIndex >= 0:
+                termText = cleanText(partsList[termIndex])
+                if activeText == '1':
+                    if conceptId != "" and termText != "":
+                        rowMap = {"code": conceptId, "description": termText, "last_updated": stampText}
+                        rowsList.append(rowMap)
+        indexNumber = indexNumber + 1
+    return rowsList
 
-df = pl.read_csv(
-    file_path,
-    separator='\t',
-    has_header=True,
-    quote_char=None,
-    encoding='utf8-lossy',
-    truncate_ragged_lines=True,
-    dtypes={
-        'id': pl.Utf8,
-        'effectiveTime': pl.Utf8,
-        'active': pl.Int32,
-        'moduleId': pl.Utf8,
-        'conceptId': pl.Utf8,
-        'languageCode': pl.Utf8,
-        'typeId': pl.Utf8,
-        'term': pl.Utf8,
-        'caseSignificanceId': pl.Utf8
-    }
-)
+def main():
+    inputPathText = 'input\sct2_Description_Full-en_US1000124_20250301.txt'
+    linesList = readLines(inputPathText)
+    rowsList = parseLines(linesList)
+    if len(rowsList) == 0:
+        print("no rows snomed")
+        return
+    data_Df = pandasLibrary.DataFrame(rowsList, columns=["code","description","last_updated"])
+    data_Df.to_csv('output/csv/snomed_clean.csv', index=False)
+    # write a smaller file separately so I can open it easier
+    if len(rowsList) > 20000:
+        smallList = rowsList[0:20000]
+        small_Df = pandasLibrary.DataFrame(smallList, columns=["code","description","last_updated"])
+        small_Df.to_csv('output/csv/snomed_clean_small.csv', index=False)
+        print("made small snomed file")
+    print("done snomed")
 
-output_dir = Path('Module1_MedicalCodexes/snowmed/output')
-output_dir.mkdir(exist_ok=True)
-output_path = output_dir / 'sct2_Description_Full.csv'
-
-df.write_csv(output_path)
-
-print(f"Successfully parsed {len(df)} records from SNOMED CT file")
-print(f"Saved to {output_path}")
-print(f"Dataset shape: {df.shape}")
-print(f"\nColumn names: {df.columns}")
-print(f"\nFirst 5 rows:")
-print(df.head())
-print(f"\nMemory usage (MB): {df.estimated_size() / 1024**2:.2f}")
-
-print(f"\nActive terms count: {df.filter(pl.col('active') == 1).height}")
-print(f"Language codes: {df['languageCode'].unique().to_list()}")
+if __name__ == "__main__":
+    main()

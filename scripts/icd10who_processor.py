@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-file_path = 'Module1_MedicalCodexes/icd/who/icd102019syst_codes.txt'
+file_path = 'input\icd102019syst_codes.txt'
 
 columns = ['level', 'type', 'usage', 'sort', 'parent', 'code', 'display_code', 
            'icd10_code', 'title_en', 'parent_title', 'detailed_title', 
@@ -11,7 +11,7 @@ columns = ['level', 'type', 'usage', 'sort', 'parent', 'code', 'display_code',
 
 df = pd.read_csv(file_path, sep=';', header=None, names=columns)
 
-output_path = 'Module1_MedicalCodexes/icd/who/output/icd102019syst_codes.csv'
+output_path = 'input/icd102019syst_codes.txt/icd/who/output/icd102019syst_codes.csv'
 df.to_csv(output_path, index=False)
 
 print(f"Successfully parsed {len(df)} records from {file_path}")
