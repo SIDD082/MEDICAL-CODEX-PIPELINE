@@ -2,7 +2,7 @@ import polars as pl
 import pandas as pd
 import time
 
-npi_file_path = 'Module1_MedicalCodexes/npi/npidata_pfile_20050523-20250810.csv'
+npi_file_path = 'input\npidata_pfile_20050523-20250810.csv'
 
 ## just load the first 1000 rows
 start_time_polars = time.time()

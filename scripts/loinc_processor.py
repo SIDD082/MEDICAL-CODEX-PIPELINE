@@ -1,7 +1,7 @@
 import pandas as pd 
 
 ## Input/Loinc.csv
-loinc = pd.read_csv(input\loinc.csv')
+loinc = pd.read_csv('input\Loinc.csv')
 
 ### Info to describe 
 loinc.info()
