@@ -2,6 +2,7 @@
 
 ## Project Overview
 
+
 This school project simulates the role of a data scientist in the healthcare software industry. The goal is to build a robust, modular data pipeline that processes and maintains standardized reference datasets for various medical codexes. These codexes are critical for healthcare applications and must be kept accurate and up-to-date.
 
 The pipeline ingests raw data files, cleans and validates their contents, and converts them into standardized CSV format suitable for production use.
@@ -20,12 +21,22 @@ This project showcases practical proficiency in:
 
 ## What Was Built
 
-Python scripts were developed to process each medical codex listed below. For every codex, the pipeline performs:
+  I processed seven code sets: SNOMED CT, ICD10 CM, ICD10 WHO, HCPCS, LOINC, RxNorm, NPI. One script per set lives in scripts. 
 
-- Ingestion of raw data from various formats  
-- Cleaning and validation for consistency and accuracy  
-- Conversion to standardized CSV format  
-- Saving outputs in a structured directory for downstream use  
+Raw files go in data. Output csv files land in output/csv.
+
+Each csv has columns: code, description, last_updated (time when I ran the script).
+
+Run order example:
+pip install -r requirements.txt
+
+python scripts/snomed_processor.py
+python scripts/icd10cm_processor.py
+python scripts/icd10who_processor.py
+python scripts/hcpcs_processor.py
+python scripts/loinc_processor.py
+python scripts/rxnorm_processor.py
+python scripts/npi_processor.py
 
 ## Codexes Processed and Reference Data Sources
 
@@ -48,7 +59,7 @@ To get started with the Medical Codex Pipeline:
 ### Step 1: Clone the repository
 
 ```bash
-git clone https://github.com/paulquimbo/medical-codex-pipeline.git
+git clone https://github.com/SIDD082/MEDICAL-CODEX-PIPELINE.git
 cd medical-codex-pipeline
 ```
 
