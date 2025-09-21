@@ -1,26 +1,16 @@
-from datetime import datetime
-import pandas as pandasLibrary
+import polars as pl
+import pandas as pd
+from pathlib import Path
 
-def makeTimestamp():
-    return datetime.now().isoformat(timespec="seconds")
+CSV_PATH = Path("output/csv")
 
-def cleanText(textValue):
-    if textValue is None:
-        return ""
-    textString = str(textValue)
-    textString = textString.strip()
-    return textString
+def save_to_csv(df, filename):
+    ###Save a DataFrame (Polars or pandas) to CSV in the output/csv directory###
+    filepath = CSV_PATH / filename
 
-def readLines(filePathText):
-    try:
-        fileObject = open(filePathText,'r',encoding='utf-8')
-        linesList = fileObject.readlines()
-        fileObject.close()
-        return linesList
-    except:
-        print("file missing " + filePathText)
-        return []
-
-def rowsToCsv(rowsList, outPathText):
-    data_Df = pandasLibrary.DataFrame(rowsList, columns=["code","description","last_updated"])
-    data_Df.to_csv(outPathText, index=False)
+    if isinstance(df, pl.DataFrame):
+        df.write_csv(str(filepath))
+    elif isinstance(df, pd.DataFrame):
+        df.to_csv(filepath, index=False)
+    else:
+        raise TypeError(f"Unsupported DataFrame type: {type(df)}")

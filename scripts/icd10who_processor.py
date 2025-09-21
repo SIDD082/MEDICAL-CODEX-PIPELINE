@@ -1,6 +1,12 @@
 ## import Module1_MedicalCodexes/icd/who/icd102019syst_codes.txt file as pandas df
 
 import pandas as pd
+from datetime import datetime
+
+# import shared utility for saving dataframes to csv
+from utils.common_functions import save_to_csv
+
+icd10who = pd.read_csv('input\icd102019syst_codes.txt', sep=';', header=None)   
 
 file_path = 'input\icd102019syst_codes.txt'
 
