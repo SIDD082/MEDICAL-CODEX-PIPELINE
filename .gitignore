@@ -13,13 +13,13 @@ raw_downloads/
 
 
 #datasets
-input\HCPC2025_OCT_ANWEB_v2.xlsx
-input\icd10cm_order_2026.txt
+input/HCPC2025_OCT_ANWEB_v2.xlsx
+input/icd10cm_order_2026.txt
 input/icd102019syst_codes.txt
-input\Loinc.csv
-input\npidata_pfile_20050523-20250810.csv
-input\RXNATOMARCHIVE.RRF
-input\sct2_Description_Full-en_US1000124_20250301.txt
+input/Loinc.csv
+input/npidata_pfile_20050523-20250810.csv
+input/RXNATOMARCHIVE.RRF
+input/sct2_Description_Full-en_US1000124_20250301.txt
 
 
 # Python
