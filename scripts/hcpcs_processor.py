@@ -1,34 +1,23 @@
 import pandas as pd
-from datetime import datetime
 
-# Import shared utility function for saving DataFrames to CSV
-from utils.common_functions import save_to_csv
+# Path to the HCPCS text file
+file_path = r"C:\Users\siddi\Desktop\MEDICAL-CODEX-PIPELINE\input\HCPC2025_OCT_ANWEB_v2.xlsx"
 
-# Load HCPC dataset from Excel file
-hcpc_df = pd.read_excel('input/hcpc/HCPC2025_OCT_ANWEB.xlsx')
 
-# Display basic structure and column info
-hcpc_df.info()
 
-# Preview the first 5 rows
-print(hcpc_df.head())
+# Read the file into a DataFrame
+# The file appears to be fixed-width formatted, so we'll use read_fwf
 
-# Explore key columns (use bracket notation for headers with spaces)
-hcpc_df['HCPC']
-hcpc_df['LONG DESCRIPTION']
-hcpc_df['SHORT DESCRIPTION']
+# You may need to adjust colspecs based on actual column widths
+# Here is a simple guess based on the sample
+colspecs = [(0, 11), (11, 90), (90, 180), (180, 200), (200, 220), (220, 240), (240, 260), (260, 280)]
+column_names = [
+    "Code", "Description1", "Description2", "Type", "Unknown1", "Unknown2", "Unknown3", "Unknown4"
+]
+df = pd.read_excel(file_path, names=column_names)
 
-# Create a trimmed DataFrame with selected columns
-shorthcpc = hcpc_df[['HCPC', 'LONG DESCRIPTION']].copy()
 
-# Add a timestamp column for tracking updates
-shorthcpc['last_updated'] = datetime.today().strftime('%m-%d-%Y')
+## save as csv to Module1_MedicalCodexes/hcpcs/output
+output_path = r"C:\Users\siddi\Desktop\MEDICAL-CODEX-PIPELINE\output\csv\HCPC2025_OCT_ANWEB.csv"
+df.to_csv(output_path, index=False)
 
-# Rename columns for clarity and consistency
-shorthcpc = shorthcpc.rename(columns={
-    'HCPC': 'Code',
-    'LONG DESCRIPTION': 'Description'
-})
-
-# Save the cleaned subset to CSV using shared utility
-save_to_csv(shorthcpc, 'hcpc_short.csv')

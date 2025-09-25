@@ -2,14 +2,10 @@ import polars as pl
 import pandas as pd
 import time
 
-npi_file_path = 'input\npidata_pfile_20050523-20250810.csv'
+npi_file_path = r"C:\Users\siddi\Desktop\MEDICAL-CODEX-PIPELINE\input\npidata_pfile_20050523-20250810.csv"
 
 ## just loading the first 1000 rows in order to minimize file size
-start_time_polars = time.time()
-df_polars = pl.read_csv(input\npidata_pfile_20050523-20250810.csv) #, n_rows=1_000_000)
-end_time_polars = time.time()
-elapsed_time_polars = end_time_polars - start_time_polars
-print(elapsed_time_polars)
+
 
 
 start_time_pandas = time.time()
@@ -20,24 +16,24 @@ print(elapsed_time_pandas)
 
 
 
-print(f"Successfully loaded {len(df_polars)} records from NPI data")
-print(f"Columns: {df_polars.columns}")
-print(f"\nDataset shape: {df_polars.shape}")
+print(f"Successfully loaded {len(df_pandas)} records from NPI data")
+print(f"Columns: {df_pandas.columns}")
+print(f"\nDataset shape: {df_pandas.shape}")
 print(f"\nFirst 5 rows:")
-print(df_polars.head())
+print(df_pandas.head())
 
-print(f"\nMemory usage (MB): {df.estimated_size() / 1024**2:.2f}")
+#print(f"\nMemory usage (MB): {df.estimated_size() / 1024**2:.2f}")
 
 
-df_polars_small = df_polars.select([
+df_polars_small = df_pandas[[
     'NPI', 
     'Provider Last Name (Legal Name)'
-])
+]]
 
 ## add in a last_updated column
-df_polars_small = df_polars_small.with_columns(
-    pl.lit('2025-09-03').alias('last_updated')
-)
+
+df_pandas["last_updated"] = '2025-09-03'
+
 
 ## rename colummns: code, description, last_updated
 df_polars_small = df_polars_small.rename({
@@ -48,6 +44,6 @@ df_polars_small = df_polars_small.rename({
 
 
 ## save to csv
-output_path = 'MEDICAL-CODEX-PIPELINE/npi/output/npi_small.csv'
-df_polars_small.write_csv(output_path)
-df_polars_small.write_parquet('MEDICAL-CODEX-PIPELINE/npi/output/npi_small.parquet')
+output_path = r"C:\Users\siddi\Desktop\MEDICAL-CODEX-PIPELINE\output\csv\npi_small_noindex.csv"
+df_polars_small.to_csv(output_path)
+#df_polars_small.write_parquet(r"MEDICAL-CODEX-PIPELINE/npi/output/npi_small.parquet")

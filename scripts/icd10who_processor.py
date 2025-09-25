@@ -4,11 +4,11 @@ import pandas as pd
 from datetime import datetime
 
 # import shared utility for saving dataframes to csv
-from utils.common_functions import save_to_csv
+#from utils.common_functions import save_to_csv
 
-icd10who = pd.read_csv('input\icd102019syst_codes.txt', sep=';', header=None)   
+icd10who = pd.read_csv(r"C:\Users\siddi\Desktop\MEDICAL-CODEX-PIPELINE\input\icd102019syst_codes.txt", sep=';', header=None)   
 
-file_path = 'input\icd102019syst_codes.txt'
+file_path = r"C:\Users\siddi\Desktop\MEDICAL-CODEX-PIPELINE\input\icd102019syst_codes.txt"
 
 columns = ['level', 'type', 'usage', 'sort', 'parent', 'code', 'display_code', 
            'icd10_code', 'title_en', 'parent_title', 'detailed_title', 
@@ -17,7 +17,7 @@ columns = ['level', 'type', 'usage', 'sort', 'parent', 'code', 'display_code',
 
 df = pd.read_csv(file_path, sep=';', header=None, names=columns)
 
-output_path = 'input/icd102019syst_codes.txt/icd/who/output/icd102019syst_codes.csv'
+output_path = r"C:\Users\siddi\Desktop\MEDICAL-CODEX-PIPELINE\output\csv\icd10who.csv"
 df.to_csv(output_path, index=False)
 
 print(f"Successfully parsed {len(df)} records from {file_path}")

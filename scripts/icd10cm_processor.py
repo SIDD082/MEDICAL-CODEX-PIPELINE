@@ -1,51 +1,47 @@
-import pandas as pd
-from common_functions import makeTimestamp, cleanText, readLines, rowsToCsv
+import pandas as pd 
+import re
 
-# I read the whole file and split by spaces. I keep code and description.
+# Define the file path
+file_path= r"C:\Users\siddi\Desktop\MEDICAL-CODEX-PIPELINE\input\icd10cm_order_2026.txt"
 
-def buildRows(linesList):
-    rowsList = []
-    stampText = makeTimestamp()
-    indexNumber = 0
-    while indexNumber < len(linesList):
-        lineText = linesList[indexNumber]
-        lineText = lineText.rstrip('\n')
-        if lineText.strip() == "":
-            indexNumber = indexNumber + 1
+# This initializes a blank list to hold the parsed codes (e.g., individual rows from the text file)
+codes = []
+
+with open(file_path, 'r', encoding='utf-8') as file:
+    for line in file:
+
+        # Remove whitespace and check line length
+        line = line.rstrip('\n\r')
+        if len(line) < 15:  # Skip lines that are too short
             continue
-        partsList = lineText.split()
-        if len(partsList) >= 4:
-            codeText = partsList[1].upper()
-            descriptionParts = partsList[3:]
-            descriptionText = " ".join(descriptionParts)
-            descriptionText = cleanText(descriptionText)
-            if descriptionText == "":
-                indexNumber = indexNumber + 1
-                continue
-            rowMap = {"code": codeText, "description": descriptionText, "last_updated": stampText}
-            rowsList.append(rowMap)
-        indexNumber = indexNumber + 1
-    return rowsList
 
-def main():
-    inputPathText = 'data/icd10cm_order_2026.txt'
-    tryFile = False
-    tryFileObject = None
-    try:
-        tryFileObject = open(inputPathText, 'r', encoding='utf-8')
-        tryFile = True
-        tryFileObject.close()
-    except:
-        print("file missing icd10cm")
-    if tryFile == False:
-        return
-    linesList = readLines(inputPathText)
-    rowsList = buildRows(linesList)
-    if len(rowsList) == 0:
-        print("no rows icd10cm")
-        return
-    rowsToCsv(rowsList, 'output/csv/icd10cm_clean.csv')
-    print("done icd10cm")
+        # Parse the fixed-length format based on pdf instructions
+        order_num = line[0:5].strip()  # Order number, first 6 characters
+        code = line[6:13].strip()  # ICD-10-CM code, characters 7-13
+        level = line[14:15].strip()  # Level indicator (0 or 1), character 15
 
-if __name__ == "__main__":
-    main()
+        # Parse description and description_detailed that follows
+        remaining_text = line[16:]  # Text after position 16
+        
+        # Split by 4+ consecutive spaces to separate description from description_detailed
+        parts = re.split(r'\s{4,}', remaining_text, 1)
+
+        # Extract description and description_detailed
+        description = parts[0].strip() if len(parts) > 0 else ""
+        description_detailed = parts[1].strip() if len(parts) > 1 else ""
+
+        # Append the parsed data to the codes list
+        codes.append({
+            'order_num': order_num,
+            'code': code,
+            'level': level,
+            'description': description,
+            'description_detailed': description_detailed
+        })
+
+## Create a DataFrame from the parsed codes
+icdcodes = pd.DataFrame(codes)
+
+## Save the DataFrame to a CSV file
+icdcodes.to_csv(r"C:\Users\siddi\Desktop\MEDICAL-CODEX-PIPELINE\output\csv\icd10cm.csv", index=False)
+

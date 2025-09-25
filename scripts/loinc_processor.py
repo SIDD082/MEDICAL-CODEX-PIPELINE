@@ -2,11 +2,11 @@ import pandas as pd
 from datetime import datetime
 
 # import shared utility fpr saving dataframes to csv
-from utils.common_functions import save_to_csv
+#from utils.common_functions import save_to_csv
 
 
 ## Input/Loinc.csv
-loinc = pd.read_csv('input\Loinc.csv')
+loinc = pd.read_csv(r"C:\Users\siddi\Desktop\MEDICAL-CODEX-PIPELINE\input\Loinc.csv")
 
 ### Info to describe 
 loinc.info()
@@ -35,11 +35,10 @@ loinc_small = loinc_small.rename(columns={
     'LONG_COMMON_NAME': 'description',
 })
 
-file_output_path = input\Loinc.csv'
+file_output_path = r"C:\Users\siddi\Desktop\MEDICAL-CODEX-PIPELINE\output\csv\loinc_small_noindex.csv"
 
-loinc_small.to_csv(input\Loinc.csv')
+loinc_small.to_csv(file_output_path, index=False)
 
-loinc_small.to_csv('input\Loinc.csv/output/loinc_small_noindex.csv', index=False)
 
 
 
