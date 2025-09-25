@@ -6,7 +6,6 @@ input/
 *.xlm
 *.xlsx
 *.zip
-*.csv
 *.txt
 *.RRF
 raw_downloads/

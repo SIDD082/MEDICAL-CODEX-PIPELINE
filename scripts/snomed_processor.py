@@ -5,7 +5,7 @@ import pandas as pd
 file_path = Path(r"C:\Users\siddi\Desktop\MEDICAL-CODEX-PIPELINE\input\sct2_Description_Full-en_US1000124_20250301.txt")
 
 df = pd.read_csv(
-    file_path, sep='\t', header=0, encoding='utf-8'
+    file_path, sep='\t', header=0, encoding='utf-8' ,nrows=100000
     #separator='\t',
     #has_header=True,
     #quote_char=None,
