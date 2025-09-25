@@ -35,7 +35,7 @@ print(f"Saved to {output_path}")
 print(f"Dataset shape: {df.shape}")
 print(f"\nColumn names: {df.columns}")
 print(f"\nFirst 5 rows:")
-print(df.head())
+print(df.head()
 #print(f"\nMemory usage (MB): {df.estimated_size() / 1024**2:.2f}")
 
 
