@@ -1,12 +1,9 @@
 # Raw data files (exclude from repo)
 input/
 /input 
-*.txt
-!requirements.txt
 *.xlm
 *.xlsx
 *.zip
-*.txt
 *.RRF
 raw_downloads/
 
