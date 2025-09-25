@@ -1,0 +1,10 @@
+polars
+pandas
+requests
+scipy
+numpy
+matplotlib
+sqlalchemy
+
+
+

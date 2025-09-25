@@ -2,7 +2,7 @@ import polars as pl
 from pathlib import Path
 import pandas as pd
 
-file_path = Path("C:\Users\siddi\Desktop\MEDICAL-CODEX-PIPELINE\input\sct2_Description_Full-en_US1000124_20250301.txt")
+file_path = Path(r"C:\Users\siddi\Desktop\MEDICAL-CODEX-PIPELINE\input\sct2_Description_Full-en_US1000124_20250301.txt")
 
 df = pd.read_csv(
     file_path,
@@ -24,11 +24,11 @@ df = pd.read_csv(
    # }
 )
 
-output_dir = Path("C:\Users\siddi\Desktop\MEDICAL-CODEX-PIPELINE\output")
+output_dir = Path(r"C:\Users\siddi\Desktop\MEDICAL-CODEX-PIPELINE\output\snomed")
 output_dir.mkdir(exist_ok=True)
 output_path = output_dir / 'sct2_Description_Full.csv'
 
-df.write_csv(output_path)
+df.to_csv(output_path)
 
 print(f"Successfully parsed {len(df)} records from SNOMED CT file")
 print(f"Saved to {output_path}")
@@ -36,7 +36,8 @@ print(f"Dataset shape: {df.shape}")
 print(f"\nColumn names: {df.columns}")
 print(f"\nFirst 5 rows:")
 print(df.head())
-print(f"\nMemory usage (MB): {df.estimated_size() / 1024**2:.2f}")
+#print(f"\nMemory usage (MB): {df.estimated_size() / 1024**2:.2f}")
 
-print(f"\nActive terms count: {df.filter(pl.col('active') == 1).height}")
-print(f"Language codes: {df['languageCode'].unique().to_list()}")
+
+#print(f"\nActive terms count: {df.filter(pl.col('active') == 1).height}")
+#print(f"Language codes: {df['languageCode'].unique().to_list()}")
